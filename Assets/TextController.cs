@@ -5,17 +5,20 @@ using UnityEngine;
 
 public class TextController : MonoBehaviour {
 
-    public Text text;
+    public Text Text;
+	public Text HealthValue;
 
   private enum States {cell, mirror, sheets_0, lock_0, cell_mirror, 
 			sheets_1, lock_1, freedom, hallway_0, escape_0, right, sword_hallway, hallway_1,
-			attack_0, run};
+			attack_0, attack_1, run, attack_2, attack_3, attack_4};
   private States myState;
 
 	// Use this for initialization
 	void Start () {
 		myState = States.cell;
+		HealthValue.text = "100";
 	}
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -39,23 +42,31 @@ public class TextController : MonoBehaviour {
 		} else if (myState == States.escape_0) {
 			state_escape_0 ();
 		} else if (myState == States.right) {
-			state_right (); }
-		else if (myState == States.freedom) {
-			state_freedom();
+			state_right ();
+		} else if (myState == States.freedom) {
+			state_freedom ();
 		} else if (myState == States.sword_hallway) {
-			state_sword_hallway();
+			state_sword_hallway ();
 		} else if (myState == States.hallway_1) {
-			state_hallway_1();
+			state_hallway_1 ();
 		} else if (myState == States.attack_0) {
-			state_attack_0();
+			state_attack_0 ();
+		} else if (myState == States.attack_1) {
+			state_attack_1 ();
 		} else if (myState == States.run) {
-			state_run();
+			state_run ();
+		} else if (myState == States.attack_2) {
+			state_attack_2 ();
+		} else if (myState == States.attack_3) {
+			state_attack_3 ();
+		} else if (myState == States.attack_4) {
+			state_attack_4 ();
 		}
 
 	}
 
 	void state_cell() {
-		text.text = "You are in a prison cell, and you want to escape. There are " +
+		Text.text = "You are in a prison cell, and you want to escape. There are " +
 			"some dirty sheets on the bed, a mirror on the wall, and the door " +
 			"is locked from the outside.\n\n" +
 			"Press S to view Sheets, M to view Mirror and L to view Lock" ;
@@ -64,33 +75,33 @@ public class TextController : MonoBehaviour {
 		else if (Input.GetKeyDown(KeyCode.L)) {myState = States.lock_0;}
 	}
 	void state_mirror() {
-		text.text = "The dirty old mirror on the wall seems loose.\n\n" +
+		Text.text = "The dirty old mirror on the wall seems loose.\n\n" +
 			"Press T to Take the mirror, or R to Return to cell" ;
 		if (Input.GetKeyDown(KeyCode.T)) {myState = States.cell_mirror;}
 		else if (Input.GetKeyDown(KeyCode.R)) {myState = States.cell;}
 	}
 	void state_sheets_0() {
-		text.text = "You can't believe you sleep in these things. Surely it's " +
+		Text.text = "You can't believe you sleep in these things. Surely it's " +
 			"time somebody changed them. The pleasures of prison life " +
 			"I guess!\n\n" +
 			"Press R to Return to roaming your cell" ;
 		if (Input.GetKeyDown(KeyCode.R)) {myState = States.cell;}
 	}
 	void state_sheets_1() {
-		text.text = "Holding a mirror in your hand doesn't make the sheets look " +
+		Text.text = "Holding a mirror in your hand doesn't make the sheets look " +
 			"any better.\n\n" +
 			"Press R to Return to roaming your cell" ;
 		if (Input.GetKeyDown(KeyCode.R)) {myState = States.cell_mirror;}
 	}
 	void state_lock_0() {
-		text.text = "This is one of those button locks. You have no idea what the " +
+		Text.text = "This is one of those button locks. You have no idea what the " +
 			"combination is. You wish you could somehow see where the dirty " +
 			"fingerprints were, maybe that would help.\n\n" +
 			"Press R to Return to roaming your cell" ;
 		if (Input.GetKeyDown(KeyCode.R)) {myState = States.cell;}
 	}
 	void state_lock_1() {
-		text.text = "You carefully put the mirror through the bars, and turn it round " +
+		Text.text = "You carefully put the mirror through the bars, and turn it round " +
 			"so you can see the lock. You can just make out fingerprints around " +
 			"the buttons. You press the dirty buttons, and hear a click.\n\n" +
 			"Press O to Open, or R to Return to your cell" ;
@@ -98,7 +109,7 @@ public class TextController : MonoBehaviour {
 		else if (Input.GetKeyDown(KeyCode.R)) {myState = States.cell_mirror;}
 	}
 	void state_cell_mirror() {
-		text.text = "You are still in your cell, and you STILL want to escape! There are " +
+		Text.text = "You are still in your cell, and you STILL want to escape! There are " +
 			"some dirty sheets on the bed, a mark where the mirror was, " +
 			"and that pesky door is still there, and firmly locked!\n\n" +
 			"Press S to view Sheets, or L to view Lock" ;
@@ -107,7 +118,7 @@ public class TextController : MonoBehaviour {
 	}
 
 	void state_hallway_0() {
-		text.text = "You make it out safe. After looking left and right it seems no ones " +
+		Text.text = "You make it out safe. After looking left and right it seems no ones " +
 					"about. The exit appears to be on the left but you can see " +
 					"something glimmering to your right. Should you investigate?\n\n" +
 					"Press L to head Left, or R to head right"; 
@@ -116,7 +127,7 @@ public class TextController : MonoBehaviour {
 	}
 
 	void state_hallway_1() {
-		text.text = "You realise you're at a dead end. You're only option is to head back " +
+		Text.text = "You realise you're at a dead end. You're only option is to head back " +
 			"and run toward the exit. Filled with hope you run as fast as you can. " +
 			"You are running for what feels like forever. Suddenly " +
 			"you are knocked down! As you look up, you realise you are at the feet of a demon. " +
@@ -126,7 +137,7 @@ public class TextController : MonoBehaviour {
 	}
 
 	void state_escape_0() {
-		text.text = "You make a run for it and head left. Smelling the fresh air you're " +
+		Text.text = "You make a run for it and head left. Smelling the fresh air you're " +
 					"filled with hope. The corridor is longer than originally appeared " +
 					"and you seem to be running for what feels like forever. Suddenly " +
 					"you are knocked down! As you look up, you realise you are at the feet of a demon. " +
@@ -136,7 +147,7 @@ public class TextController : MonoBehaviour {
 	}
 
 	void state_right() {
-		text.text = "You head right to see what is glimmering in the corner. " +
+		Text.text = "You head right to see what is glimmering in the corner. " +
 					"As you get closer, you realise it is a sword. Should you take it?\n\n" +
 					"Press T to Take the sword, L to leave it";
 			if (Input.GetKeyDown(KeyCode.T)) {myState = States.sword_hallway;}
@@ -144,7 +155,7 @@ public class TextController : MonoBehaviour {
 	}
 
 	void state_sword_hallway() {
-		text.text = "You've taken the sword and realise you're at a dead end. " +
+		Text.text = "You've taken the sword and realise you're at a dead end. " +
 			"The only option now is to run back towards the exit. " +
 			"Filled with hope, you move as fast as you can. You're running for what feels " +
 			"like forever. Suddenly you are knocked down! As you look up, you realise that " +
@@ -156,22 +167,63 @@ public class TextController : MonoBehaviour {
 	}
 
 	void state_run() {
-		text.text = "You try to run going as fast as you can but it seems " +
+		Text.text = "You try to run going as fast as you can but it seems " +
 			"you are no match for the demons speed and you are struck down.\n\n" +
 			"Press P to Play again";
 		if (Input.GetKeyDown(KeyCode.P)) {myState = States.cell;}
 	}
 
-	void state_attack_0() {
-		text.text = "You strike the demon with everything you have and appear to mortally " +
-			"it. Seeing you're chance you run passed the fallen demon and make a dash to the exit. " +
+	void state_attack_1() {
+		Text.text = "You strike the demon with everything you have and appear to mortally " +
+			"wound it. Seeing you're chance you run passed the fallen demon and make a dash to the exit. " +
 			"Against all odds you have made it out and are free!\n\n" +
 			"Press P to Play again";
 		if (Input.GetKeyDown(KeyCode.P)) {myState = States.cell;}
 	}
 
+	void state_attack_0() {
+		var randomNumber = Random.Range(0,100);
+
+		if (randomNumber % 2 == 0) {
+			myState = States.attack_2;
+		} else if (randomNumber % 2 == 1) {
+			myState = States.attack_4;
+		}
+	}
+
+	void state_attack_2()
+	{
+		Text.text = "You strike the demon with everything you have but you " +
+			"have not defeated your foe. Try again?\n\n" +
+			"Press A to Attack again";
+		if (Input.GetKeyDown (KeyCode.A)) {
+			myState = States.attack_3;
+		}
+	}
+
+	void state_attack_3()
+	{
+		Text.text = "You strike the demon with everything you have and appear to mortally " +
+			"wound it. Seeing you're chance you run passed the fallen demon and make a dash to the exit. " +
+			"Against all odds you have made it out and are free!\n\n" +
+			"Press P to Play again";
+		if (Input.GetKeyDown (KeyCode.P)) {
+			myState = States.cell;
+		}
+	}
+
+	void state_attack_4() {
+		HealthValue.text = "45";
+		Text.text = "Your attack failed and the demon retaliated! " +
+			"You've taken damage and need to survive\n\n" +
+			"Press A to Attack again";
+		if (Input.GetKeyDown (KeyCode.A)) {
+			myState = States.attack_3;
+		}
+	}
+
 	void state_freedom() {
-		text.text = "You are FREE!\n\n" +
+		Text.text = "You are FREE!\n\n" +
 			"Press P to Play again";
 		if (Input.GetKeyDown(KeyCode.P)) {myState = States.cell;}
 	}
